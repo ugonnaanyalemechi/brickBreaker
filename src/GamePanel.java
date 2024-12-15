@@ -13,9 +13,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     private final Paddle paddle;
     private final Ball ball;
     private final Timer timer;
+    private boolean ongoingGame;
 
 
     public GamePanel(int width, int height) {
+        ongoingGame = true;
         this.width = width;
         this.height = height;
 
@@ -56,6 +58,18 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         timer.start();
+
+        if (ongoingGame) {
+            ball.ballPosX -= ball.ballDirX;
+            ball.ballPosY += ball.ballDirY;
+            if (ball.ballPosX < 0)
+                ball.ballDirX = -ball.ballDirX;
+            if (ball.ballPosX > width - 10)
+                ball.ballDirY -= ball.ballDirY;
+            if (ball.ballPosY < 0)
+                ball.ballDirY = -ball.ballDirY;
+        }
+
         repaint(); // calls the paint over and over again to update the screen
     }
 

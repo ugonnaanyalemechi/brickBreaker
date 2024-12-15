@@ -11,8 +11,8 @@ public class Ball extends JComponent {
     private Ball() {
         ballPosX = 120;
         ballPosY = 270;
-        ballDirX = -1;
-        ballDirY = -2;
+        ballDirX = -3;
+        ballDirY = -3;
     }
 
     public static Ball getInstance() {

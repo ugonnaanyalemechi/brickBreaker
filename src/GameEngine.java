@@ -6,7 +6,6 @@ public class GameEngine {
     private final Paddle paddle;
 
     public GameEngine() {
-        ongoingGame = false;
         score = 0;
         totalBricks = 28;
         paddle = Paddle.getInstance();
