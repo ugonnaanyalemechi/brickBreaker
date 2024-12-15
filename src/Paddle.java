@@ -19,4 +19,12 @@ public class Paddle extends JComponent {
         g2d.setColor(Color.white);
         g2d.fillRect(paddleX, 630, 100, 8);
     }
+
+    public void moveRight() {
+        paddleX += 10;
+    }
+
+    public void moveLeft() {
+        paddleX -= 10;
+    }
 }

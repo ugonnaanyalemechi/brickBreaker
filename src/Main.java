@@ -1,9 +1,10 @@
 import javax.swing.*;
 
 public class Main {
+    public static int width = 700;
+    public static int height = 700;
+
     public static void main(String[] args) {
-        int width = 700;
-        int height = 700;
 
         JFrame frame = new JFrame();
         GamePanel gameMap = new GamePanel(width, height);

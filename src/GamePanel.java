@@ -13,16 +13,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     private final Paddle paddle;
     private final Ball ball;
     private final Timer timer;
-    private boolean ongoingGame;
-
 
     public GamePanel(int width, int height) {
-        ongoingGame = true;
         this.width = width;
         this.height = height;
 
-        gameEngine = new GameEngine();
         bricks = new Bricks(4, 7);
+        gameEngine = GameEngine.getInstance();
         paddle = Paddle.getInstance();
         ball = Ball.getInstance();
 
@@ -59,18 +56,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         timer.start();
 
-        if (ongoingGame) {
-            ball.ballPosX -= ball.ballDirX;
-            ball.ballPosY += ball.ballDirY;
-            if (ball.ballPosX < 0)
-                ball.ballDirX = -ball.ballDirX;
-            if (ball.ballPosX > width - 10)
-                ball.ballDirY -= ball.ballDirY;
-            if (ball.ballPosY < 0)
-                ball.ballDirY = -ball.ballDirY;
-        }
+        gameEngine.handleBallBorderCollisions();
+        gameEngine.handleBallPaddleCollisions();
 
-        repaint(); // calls the paint over and over again to update the screen
+        repaint(); // calls the paint method over and over again to update the screen
     }
 
     @Override
@@ -78,15 +67,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
         if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
             if (paddle.paddleX >= width - 110)
                 paddle.paddleX = width - 110;
-            else
-                gameEngine.moveRight();
+            else {
+                gameEngine.ongoingGame = true;
+                paddle.moveRight();
+            }
         }
 
         if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
             if (paddle.paddleX < 10)
                 paddle.paddleX = 0;
-            else
-                gameEngine.moveLeft();
+            else {
+                gameEngine.ongoingGame = true;
+                paddle.moveLeft();
+            }
         }
     }
 
