@@ -24,5 +24,6 @@ public class Ball extends JComponent {
     public void paintComponent(Graphics2D g2d) {
         g2d.setColor(Color.white);
         g2d.fillOval(ballPosX, ballPosY, 20, 20);
+
     }
 }

@@ -45,9 +45,29 @@ public class GameEngine extends JPanel implements KeyListener, ActionListener {
         g2d.setColor(Color.black);
         g2d.fill(r);
 
+        // game elements
         bricks.paintComponent((Graphics2D) g2d);
         paddle.paintComponent((Graphics2D) g2d);
         ball.paintComponent((Graphics2D) g2d);
+
+        // score
+        g.setColor(Color.white);
+        g.setFont(new Font("Arial", Font.BOLD, 25));
+        g.drawString("Score: " + gameLogic.score, 555, 30);
+
+        if (ball.ballPosY > 700) {
+            gameLogic.ongoingGame = false;
+            g2d.setColor(Color.black);
+            g2d.fill(r);
+
+            g.setColor(Color.white);
+            g.setFont(new Font("Arial", Font.BOLD, 50));
+            g.drawString("Game Over", 210, 350);
+
+            g.setColor(Color.white);
+            g.setFont(new Font("Arial", Font.BOLD, 20));
+            g.drawString("Press Any Key to Reset", 240, 390);
+        }
 
         g2d.dispose();
     }

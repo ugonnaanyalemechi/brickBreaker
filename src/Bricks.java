@@ -12,6 +12,7 @@ public class Bricks extends JComponent {
     private int colSize;
     private HashMap<String, Color> colorMap;
     private String[] colors = new String[] {"Red", "Yellow", "Green", "Teal"};
+    private static GameLogic gameLogic;
 
     private Bricks(int rowSize, int colSize) {
         this.rowSize = rowSize;

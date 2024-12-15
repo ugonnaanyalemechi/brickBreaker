@@ -7,11 +7,11 @@ public class Main {
     public static void main(String[] args) {
 
         JFrame frame = new JFrame();
-        GameEngine gameMap = new GameEngine(width, height);
+        GameEngine gameEngine = new GameEngine(width, height);
         frame.setSize(width, height);
         frame.setTitle("Brick Breaker");
         frame.setResizable(false);
-        frame.add(gameMap);
+        frame.add(gameEngine);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
