@@ -6,9 +6,10 @@ public class Main {
         int height = 700;
 
         JFrame frame = new JFrame();
-        GameMap gameMap = new GameMap(width, height);
+        GamePanel gameMap = new GamePanel(width, height);
         frame.setSize(width, height);
         frame.setTitle("Brick Breaker");
+        frame.setResizable(false);
         frame.add(gameMap);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
