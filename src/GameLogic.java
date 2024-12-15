@@ -2,9 +2,8 @@ import java.awt.*;
 
 public class GameLogic {
     private static GameLogic instance;
-    public boolean ongoingGame;
     public int score;
-    private int totalBricks;
+    public int totalBricks;
     private final Ball ball;
     private final Paddle paddle;
     private final Bricks bricks;
@@ -74,13 +73,4 @@ public class GameLogic {
                 break;
         }
     }
-
-//    public void something() {
-//        if (ball.ballPosY > 700) {
-//            ongoingGame = false;
-//
-//        }
-//    }
-
-
 }

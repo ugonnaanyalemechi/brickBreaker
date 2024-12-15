@@ -1,4 +1,4 @@
-import java.awt.*; // for the CustomColor & Graphics classes
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,13 +13,14 @@ public class GameEngine extends JPanel implements KeyListener, ActionListener {
     private final Paddle paddle;
     private final Ball ball;
     private final Timer timer;
+    public boolean ongoingGame;
 
     public GameEngine(int width, int height) {
         this.width = width;
         this.height = height;
 
-        bricks = Bricks.getInstance(4, 7);
         gameLogic = GameLogic.getInstance();
+        bricks = Bricks.getInstance(4, 7);
         paddle = Paddle.getInstance();
         ball = Ball.getInstance();
 
@@ -41,9 +42,9 @@ public class GameEngine extends JPanel implements KeyListener, ActionListener {
         g2d.setRenderingHints(rh);
 
         // background
-        Rectangle r = new Rectangle(0, 0, width, height);
+        Rectangle background = new Rectangle(0, 0, width, height);
         g2d.setColor(Color.black);
-        g2d.fill(r);
+        g2d.fill(background);
 
         // game elements
         bricks.paintComponent((Graphics2D) g2d);
@@ -51,32 +52,66 @@ public class GameEngine extends JPanel implements KeyListener, ActionListener {
         ball.paintComponent((Graphics2D) g2d);
 
         // score
-        g.setColor(Color.white);
-        g.setFont(new Font("Arial", Font.BOLD, 25));
-        g.drawString("Score: " + gameLogic.score, 555, 30);
+        g2d.setColor(Color.white);
+        g2d.setFont(new Font("Arial", Font.BOLD, 25));
+        g2d.drawString("Score: " + gameLogic.score, 555, 30);
 
-        if (ball.ballPosY > 700) {
-            gameLogic.ongoingGame = false;
-            g2d.setColor(Color.black);
-            g2d.fill(r);
-
-            g.setColor(Color.white);
-            g.setFont(new Font("Arial", Font.BOLD, 50));
-            g.drawString("Game Over", 210, 350);
-
-            g.setColor(Color.white);
-            g.setFont(new Font("Arial", Font.BOLD, 20));
-            g.drawString("Press Any Key to Reset", 240, 390);
-        }
+        // game events
+        if (ball.ballPosY > 700)
+            handleLossEvent((Graphics2D) g2d, background);
+        if (gameLogic.totalBricks == 0)
+            handleWinEvent((Graphics2D) g2d, background);
 
         g2d.dispose();
+    }
+
+    public void handleLossEvent(Graphics2D g2d, Rectangle background) {
+        ongoingGame = false;
+        g2d.setColor(Color.black);
+        g2d.fill(background);
+
+        g2d.setColor(Color.white);
+        g2d.setFont(new Font("Arial", Font.BOLD, 50));
+        g2d.drawString("Game Over", 210, 350);
+
+        g2d.setColor(Color.white);
+        g2d.setFont(new Font("Arial", Font.BOLD, 20));
+        g2d.drawString("Press Any Key to Reset", 240, 390);
+    }
+
+    public void handleWinEvent(Graphics2D g2d, Rectangle background) {
+        ongoingGame = false;
+        g2d.setColor(Color.black);
+        g2d.fill(background);
+
+        ImageIcon image = new ImageIcon("src/../images/veerasamy.png");
+        image.paintIcon(this, g2d, 240, 150);
+
+        g2d.setColor(Color.white);
+        g2d.setFont(new Font("Arial", Font.BOLD, 50));
+        g2d.drawString("You Won!", 230, 500);
+
+        g2d.setColor(Color.white);
+        g2d.setFont(new Font("Arial", Font.BOLD, 20));
+        g2d.drawString("Press Any Key to Reset", 240, 540);
+    }
+
+    public void resetGame() {
+        ball.ballPosX = 120;
+        ball.ballPosY = 270;
+        ball.ballDirX = -3;
+        ball.ballDirY = -3;
+        paddle.paddleX = 310;
+        gameLogic.score = 0;
+        gameLogic.totalBricks = 28;
+        bricks.resetBricks();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         timer.start();
 
-        if (gameLogic.ongoingGame) {
+        if (ongoingGame) {
             gameLogic.handleBallBorderCollisions();
             gameLogic.handleBallPaddleCollisions();
             gameLogic.handleBallBrickCollisions();
@@ -91,7 +126,7 @@ public class GameEngine extends JPanel implements KeyListener, ActionListener {
             if (paddle.paddleX >= width - 110)
                 paddle.paddleX = width - 110;
             else {
-                gameLogic.ongoingGame = true;
+                ongoingGame = true;
                 paddle.moveRight();
             }
         }
@@ -100,10 +135,13 @@ public class GameEngine extends JPanel implements KeyListener, ActionListener {
             if (paddle.paddleX < 10)
                 paddle.paddleX = 0;
             else {
-                gameLogic.ongoingGame = true;
+                ongoingGame = true;
                 paddle.moveLeft();
             }
         }
+
+        if (!ongoingGame)
+            resetGame();
     }
 
     @Override

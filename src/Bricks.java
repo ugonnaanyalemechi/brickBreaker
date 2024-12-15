@@ -18,11 +18,7 @@ public class Bricks extends JComponent {
         this.rowSize = rowSize;
         this.colSize = colSize;
         bricks = new int[rowSize][colSize];
-
-        for (int i = 0; i < rowSize; i++) {
-            for (int j = 0; j < colSize; j++)
-                bricks[i][j] = 1;
-        }
+        initializeBricks();
 
         brickWidth = 540/colSize;
         brickHeight = 140/rowSize;
@@ -35,9 +31,17 @@ public class Bricks extends JComponent {
     }
 
     public static Bricks getInstance(int rows, int cols) {
-        if (instance == null)
+        if (instance == null) {
             instance = new Bricks(rows, cols);
+        }
         return instance;
+    }
+
+    public void initializeBricks() {
+        for (int i = 0; i < rowSize; i++) {
+            for (int j = 0; j < colSize; j++)
+                bricks[i][j] = 1;
+        }
     }
 
     protected void paintComponent(Graphics2D g2d) {
@@ -58,5 +62,9 @@ public class Bricks extends JComponent {
 
     public void makeBrickDisappear(int val, int row, int col) {
         bricks[row][col] = val;
+    }
+
+    public void resetBricks() {
+        initializeBricks();
     }
 }
