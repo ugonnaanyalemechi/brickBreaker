@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
 
         JFrame frame = new JFrame();
-        GamePanel gameMap = new GamePanel(width, height);
+        GameEngine gameMap = new GameEngine(width, height);
         frame.setSize(width, height);
         frame.setTitle("Brick Breaker");
         frame.setResizable(false);

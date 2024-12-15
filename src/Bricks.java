@@ -4,15 +4,16 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.HashMap;
 
 public class Bricks extends JComponent {
-    private int bricks[][];
-    private int brickWidth;
-    private int brickHeight;
+    private static Bricks instance;
+    public int bricks[][];
+    public int brickWidth;
+    public int brickHeight;
     private int rowSize;
     private int colSize;
     private HashMap<String, Color> colorMap;
     private String[] colors = new String[] {"Red", "Yellow", "Green", "Teal"};
 
-    public Bricks(int rowSize, int colSize) {
+    private Bricks(int rowSize, int colSize) {
         this.rowSize = rowSize;
         this.colSize = colSize;
         bricks = new int[rowSize][colSize];
@@ -32,6 +33,12 @@ public class Bricks extends JComponent {
         colorMap.put("Teal", new Color(31, 187, 223));
     }
 
+    public static Bricks getInstance(int rows, int cols) {
+        if (instance == null)
+            instance = new Bricks(rows, cols);
+        return instance;
+    }
+
     protected void paintComponent(Graphics2D g2d) {
         for (int i = 0; i < rowSize; i++) {
             for (int j = 0; j < colSize; j++) {
@@ -46,5 +53,9 @@ public class Bricks extends JComponent {
                 }
             }
         }
+    }
+
+    public void makeBrickDisappear(int val, int row, int col) {
+        bricks[row][col] = val;
     }
 }

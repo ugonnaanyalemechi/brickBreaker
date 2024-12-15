@@ -17,7 +17,7 @@ public class Paddle extends JComponent {
 
     public void paintComponent(Graphics2D g2d) {
         g2d.setColor(Color.white);
-        g2d.fillRect(paddleX, 630, 100, 8);
+        g2d.fillRect(paddleX, 630, 100, 5);
     }
 
     public void moveRight() {
