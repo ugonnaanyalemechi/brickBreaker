@@ -5,13 +5,13 @@ import java.util.HashMap;
 
 public class Bricks extends JComponent {
     private static Bricks instance;
-    public int bricks[][];
+    public final int[][] bricks;
     public int brickWidth;
     public int brickHeight;
-    private int rowSize;
-    private int colSize;
-    private HashMap<String, Color> colorMap;
-    private String[] colors = new String[] {"Red", "Yellow", "Green", "Teal"};
+    private final int rowSize;
+    private final int colSize;
+    private final HashMap<String, Color> colorMap;
+    private final String[] colors = new String[] {"Red", "Yellow", "Green", "Teal"};
     private static GameLogic gameLogic;
 
     private Bricks(int rowSize, int colSize) {
